@@ -1,0 +1,79 @@
+# Imports
+from Admin import Admin
+from Doctor import Doctor
+from Patient import Patient
+
+def main():
+    """
+    the main function to be ran when the program runs
+    """
+
+    # Initialising the actors
+    admin = Admin('prameya','123','B1 1AB') # username is 'admin', password is '123'
+    doctors = [Doctor('John','Smith','Internal Med.'), Doctor('Jone','Smith','Pediatrics'), Doctor('Jone','Carlos','Cardiology')]
+    patients = [Patient('Sara','Smith', 20, '07012345678','B1 234'), Patient('Mike','Jones', 37,'07555551234','L2 2AB'), Patient('Daivd','Smith', 15, '07123456789','C1 ABC')]
+    discharged_patients = []
+
+    # keep trying to login tell the login details are correct
+    print("-----Welcome to the Hospital Management System-----")
+    while True:
+        if admin.login():
+            running = True # allow the program to run
+            break
+        else:
+            print('Incorrect username or password: Please Check and Re-enter')
+
+    while running:
+        # print the menu
+        print('Choose the operation:')
+        print(' 1- Register/view/update/delete doctor')
+        print(' 2- Discharge patients')
+        print(' 3- View discharged patient')
+        print(' 4- Assign doctor to a patient')
+        print(' 5- Update admin detais')
+        print(' 6- Quit')
+
+        # get the option
+        y = input('Choose the Operation: ')
+
+        if y == '1':
+            # 1- Register/view/update/delete doctor
+            admin.doctor_management(doctors)
+
+        elif y == '2':
+            
+            while True:
+                op = input('Do you want to discharge a patient(yes/no):').lower()
+
+                if op == 'yes':
+                   admin.discharge(patients,discharged_patients)
+
+                elif op == 'no':
+                    break
+
+                # unexpected entry
+                else:
+                    print('Please answer by yes or no.')
+        
+        elif y == '3':
+            # 3 - view discharged patients
+            admin.view_discharge(discharged_patients)
+
+        elif y == '4':
+            # 4- Assign doctor to a patient
+            admin.assign_doctor_to_patient(patients, doctors)
+
+        elif y == '5':
+            # 5- Update admin detais
+            admin.update_details()
+
+        elif y == '6':
+            # 6 - Quit
+            break
+
+        else:
+            # the user did not enter an option that exists in the menu
+            print('Invalid option. Try again')
+
+if __name__ == '__main__':
+        main()
